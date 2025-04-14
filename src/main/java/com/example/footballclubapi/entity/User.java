@@ -1,0 +1,74 @@
+package com.example.footballclubapi.entity;
+
+import com.example.footballclubapi.enumiration.Role;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "users")
+@Builder
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false, length = 128)
+    private String username;
+
+    private String password;
+
+    @Column(nullable = false, length = 64)
+    private String firstname;
+
+    @Column(nullable = false, length = 64)
+    private String lastname;
+
+    @Column(nullable = false)
+    private LocalDateTime dateOfCreation;
+
+    @Column(name = "is_restricted")
+    private boolean restricted;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<CartClothing> cartClothingList;
+
+    @OneToMany(mappedBy = "user")
+    private List<CartShoes> cartShoesList;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<WeaponReview> weaponReviews;
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<AccessoryReview> accessoryReviews;
+
+    @PrePersist
+    public void setDateOfCreation() {
+        this.dateOfCreation = LocalDateTime.now();
+    }
+}
