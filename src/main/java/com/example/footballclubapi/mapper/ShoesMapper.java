@@ -58,7 +58,6 @@ public class ShoesMapper {
                 .material(shoes.getMaterial())
                 .soleType(shoes.getSoleType())
                 .description(shoes.getDescription())
-                .imagePath(shoes.getImagePath())
                 .manufacturer(manufacturer)
                 .shoesType(shoesType)
                 .build();

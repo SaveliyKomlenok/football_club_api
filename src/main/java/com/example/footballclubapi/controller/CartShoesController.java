@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,7 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cart-shoes")
-//@SecurityRequirement(name = "BearerAuth")
+@SecurityRequirement(name = "BearerAuth")
 public class CartShoesController {
     private final CartShoesService cartShoesService;
     private final CartShoesMapper cartShoesMapper;
@@ -33,19 +34,19 @@ public class CartShoesController {
 
     @GetMapping
     public ResponseEntity<CartShoesListResponse> getAll(Principal principal) {
-        List<CartShoes> cartShoesList = cartShoesService.getAll(1L); // getCurrentUser(principal).getId()
+        List<CartShoes> cartShoesList = cartShoesService.getAll(getCurrentUser(principal).getId());
         return new ResponseEntity<>(cartShoesMapper.toListResponse(cartShoesList), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<CartShoesResponse> save(@RequestBody @Valid CartShoesRequest request, Principal principal) {
-        CartShoes cartShoes = cartShoesService.save(cartShoesMapper.toEntity(request, 1L)); // getCurrentUser(principal).getId()
+        CartShoes cartShoes = cartShoesService.save(cartShoesMapper.toEntity(request, getCurrentUser(principal).getId()));
         return new ResponseEntity<>(cartShoesMapper.toResponse(cartShoes), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CartShoesResponse> update(@PathVariable Long id, @RequestBody @Valid CartShoesRequest request, Principal principal) {
-        CartShoes cartShoes = cartShoesService.update(cartShoesMapper.toEntity(id, request, 1L)); // getCurrentUser(principal).getId()
+        CartShoes cartShoes = cartShoesService.update(cartShoesMapper.toEntity(id, request, getCurrentUser(principal).getId()));
         return new ResponseEntity<>(cartShoesMapper.toResponse(cartShoes), HttpStatus.OK);
     }
 
@@ -55,7 +56,7 @@ public class CartShoesController {
         return ResponseEntity.ok(String.format("Cart shoes with id %d removed", id));
     }
 
-//    private User getCurrentUser(Principal principal) {
-//        return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-//    }
+    private User getCurrentUser(Principal principal) {
+        return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.footballclubapi.service.impl;
 
 import com.example.footballclubapi.entity.ShoesWarehouse;
+import com.example.footballclubapi.exception.ClothingWithSelectedSizeNotExistsException;
 import com.example.footballclubapi.exception.ShoesWarehouseNotExistsException;
 import com.example.footballclubapi.repository.ShoesWarehouseRepository;
 import com.example.footballclubapi.service.ShoesWarehouseService;
@@ -10,17 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.footballclubapi.util.ExceptionMessages.CLOTHING_WITH_SELECTED_SIZE_NOT_EXISTS;
 import static com.example.footballclubapi.util.ExceptionMessages.SHOES_WAREHOUSE_NOT_EXISTS;
+import static com.example.footballclubapi.util.ExceptionMessages.SHOES_WITH_SELECTED_SIZE_NOT_EXISTS;
 
 @Service
 @RequiredArgsConstructor
 public class ShoesWarehouseServiceImpl implements ShoesWarehouseService {
-
     private final ShoesWarehouseRepository shoesWarehouseRepository;
 
     @Override
     public ShoesWarehouse getById(Long id) {
         return getOrThrow(id);
+    }
+
+    @Override
+    public ShoesWarehouse getByShoesIdAndSizeId(Long shoesId, Long sizeId) {
+        return shoesWarehouseRepository.findShoesWarehouseByShoesIdAndSizeId(shoesId, sizeId)
+                .orElseThrow(() -> new ClothingWithSelectedSizeNotExistsException(String.format(SHOES_WITH_SELECTED_SIZE_NOT_EXISTS, shoesId, sizeId)));
     }
 
     @Override

@@ -21,7 +21,7 @@ public class CartShoesMapper {
     private final UserService userService;
 
     public CartShoes toEntity(CartShoesRequest request, Long userId) {
-        ShoesWarehouse warehouse = shoesWarehouseService.getById(request.shoesWarehouse());
+        ShoesWarehouse warehouse = shoesWarehouseService.getByShoesIdAndSizeId(request.shoes(), request.size());
         User user = userService.getById(userId);
         return CartShoes.builder()
                 .amount(request.amount())

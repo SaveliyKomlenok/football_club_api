@@ -8,6 +8,7 @@ import com.example.footballclubapi.dto.response.user.UserResponse;
 import com.example.footballclubapi.entity.User;
 import com.example.footballclubapi.enumiration.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,14 +16,14 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public User toEntity(UserRegisterRequest request) {
         return User.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .username(request.username())
-                //.password(passwordEncoder.encode(request.password()))
+                .password(passwordEncoder.encode(request.password()))
                 .role(Role.USER)
                 .build();
     }

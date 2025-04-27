@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/clothing-warehouses")
-//@SecurityRequirement(name = "BearerAuth")
+@SecurityRequirement(name = "BearerAuth")
 public class ClothingWarehouseController {
     private final ClothingWarehouseService clothingWarehouseService;
     private final ClothingWarehouseMapper clothingWarehouseMapper;

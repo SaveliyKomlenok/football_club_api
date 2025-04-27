@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -19,20 +20,20 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/orders")
-//@SecurityRequirement(name = "BearerAuth")
+@SecurityRequirement(name = "BearerAuth")
 public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
     @GetMapping
     public ResponseEntity<OrderListResponse> findAll(Principal principal) {
-        List<Order> orderList = orderService.getAll(1L); // getCurrentUser(principal).getId()
+        List<Order> orderList = orderService.getAll(getCurrentUser(principal).getId());
         return new ResponseEntity<>(orderMapper.toListResponse(orderList), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<OrderResponse> create(@RequestBody OrderRequest request, Principal principal) {
-        Order order = orderService.save(orderMapper.toEntity(request, 1L)); // getCurrentUser(principal).getId()
+        Order order = orderService.save(orderMapper.toEntity(request, getCurrentUser(principal).getId()));
         return new ResponseEntity<>(orderMapper.toResponse(order), HttpStatus.CREATED);
     }
 
@@ -42,7 +43,7 @@ public class OrderController {
         return ResponseEntity.ok(String.format("Order with id %d removed", id));
     }
 
-//    private User getCurrentUser(Principal principal) {
-//        return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-//    }
+    private User getCurrentUser(Principal principal) {
+        return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    }
 }

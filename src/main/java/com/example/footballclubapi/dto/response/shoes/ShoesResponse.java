@@ -13,13 +13,10 @@ public record ShoesResponse(
         Long id,
         String name,
         BigDecimal price,
-        Integer amount,
         String color,
         String material,
         String soleType,
-        List<ClothSize> sizes,
         String description,
-        String imagePath,
         ManufacturerResponse manufacturer,
         ShoesTypeResponse shoesType
 ) {

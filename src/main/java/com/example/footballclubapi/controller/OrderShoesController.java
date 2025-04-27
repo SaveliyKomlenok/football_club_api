@@ -1,11 +1,10 @@
 package com.example.footballclubapi.controller;
 
-import com.example.footballclubapi.dto.response.orderclothing.OrderClothingListResponse;
 import com.example.footballclubapi.dto.response.ordershoes.OrderShoesListResponse;
-import com.example.footballclubapi.entity.OrderClothing;
 import com.example.footballclubapi.entity.OrderShoes;
 import com.example.footballclubapi.mapper.OrderShoesMapper;
 import com.example.footballclubapi.service.OrderShoesService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/order-shoes")
-//@SecurityRequirement(name = "BearerAuth")
+@SecurityRequirement(name = "BearerAuth")
 public class OrderShoesController {
     private final OrderShoesService orderShoesService;
     private final OrderShoesMapper orderShoesMapper;

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ShoesWarehouseService {
     ShoesWarehouse getById(Long id);
+    ShoesWarehouse getByShoesIdAndSizeId(Long shoesId, Long sizeId);
     List<ShoesWarehouse> getAll();
     ShoesWarehouse save(ShoesWarehouse shoesWarehouse);
     ShoesWarehouse update(ShoesWarehouse shoesWarehouse);

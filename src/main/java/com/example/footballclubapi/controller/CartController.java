@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +23,10 @@ public class CartController {
 
     @GetMapping
     public ResponseEntity<CartResponse> listOfCarts(Principal principal) {
-        return new ResponseEntity<>(cartService.getAll(1L), HttpStatus.OK); // getCurrentUser(principal).getId()
+        return new ResponseEntity<>(cartService.getAll(getCurrentUser(principal).getId()), HttpStatus.OK);
     }
 
-//    private User getCurrentUser(Principal principal) {
-//        return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-//    }
+    private User getCurrentUser(Principal principal) {
+        return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    }
 }

@@ -8,7 +8,7 @@ import lombok.Builder;
 public record OrderShoesResponse(
         Long id,
         Integer amount,
-        ShoesWarehouseResponse shoes,
+        ShoesWarehouseResponse shoesWarehouse,
         OrderResponse order
 ) {
 }

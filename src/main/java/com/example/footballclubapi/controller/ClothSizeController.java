@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cloth-sizes")
-//@SecurityRequirement(name = "BearerAuth")
+@SecurityRequirement(name = "BearerAuth")
 public class ClothSizeController {
     private final ClothSizeService clothSizeService;
     private final ClothSizeMapper clothSizeMapper;
