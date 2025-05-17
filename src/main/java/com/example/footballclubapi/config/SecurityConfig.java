@@ -41,7 +41,18 @@ public class SecurityConfig {
                                 "/api/v1/clothing-types",
                                 "/api/v1/shoes-types",
                                 "/api/v1/users/**",
-                                "/api/v1/users")
+                                "/api/v1/users",
+                                "/api/v1/carts",
+                                "/api/v1/shoe-sizes",
+                                "/api/v1/shoe-sizes/**",
+                                "/api/v1/cloth-sizes",
+                                "/api/v1/shoe-sizes/**",
+                                "/api/v1/cart-clothing",
+                                "/api/v1/cart-clothing/**",
+                                "/api/v1/cart-shoes",
+                                "/api/v1/cart-shoes/**",
+                                "/api/v1/orders",
+                                "/api/v1/orders/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())

@@ -8,14 +8,18 @@ import com.example.footballclubapi.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.example.footballclubapi.util.Constants.CROSS_LOCALHOST;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@CrossOrigin(origins = CROSS_LOCALHOST)
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserMapper userMapper;

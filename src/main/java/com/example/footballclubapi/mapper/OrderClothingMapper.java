@@ -15,7 +15,6 @@ import java.util.List;
 public class OrderClothingMapper {
     private final ClothingWarehouseService clothingWarehouseService;
     private final ClothingWarehouseMapper clothingWarehouseMapper;
-    private final OrderMapper orderMapper;
 
     public OrderClothing toEntity(OrderClothingRequest request) {
         return OrderClothing.builder()
@@ -28,8 +27,7 @@ public class OrderClothingMapper {
         return OrderClothingResponse.builder()
                 .id(orderClothing.getId())
                 .amount(orderClothing.getAmount())
-                .clothing(clothingWarehouseMapper.toResponse(orderClothing.getClothingWarehouse()))
-                .order(orderMapper.toResponse(orderClothing.getOrder()))
+                .clothingWarehouse(clothingWarehouseMapper.toResponse(orderClothing.getClothingWarehouse()))
                 .build();
     }
 

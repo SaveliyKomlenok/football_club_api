@@ -3,6 +3,8 @@ package com.example.footballclubapi.controller;
 import com.example.footballclubapi.dto.request.clothing.ClothingRequest;
 import com.example.footballclubapi.dto.response.clothing.ClothingListResponse;
 import com.example.footballclubapi.dto.response.clothing.ClothingResponse;
+import com.example.footballclubapi.dto.response.clothing.ClothingWithSizesListResponse;
+import com.example.footballclubapi.dto.response.clothing.ClothingWithSizesResponse;
 import com.example.footballclubapi.entity.Clothing;
 import com.example.footballclubapi.entity.ClothingWarehouse;
 import com.example.footballclubapi.mapper.ClothingMapper;
@@ -18,25 +20,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.footballclubapi.util.Constants.CROSS_LOCALHOST;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/clothing")
 @SecurityRequirement(name = "BearerAuth")
+@CrossOrigin(origins = CROSS_LOCALHOST)
 public class ClothingController {
     private final ClothingService clothingService;
     private final ImageService imageService;
     private final ClothingMapper clothingMapper;
 
     @GetMapping
-    public ResponseEntity<ClothingListResponse> getAll() {
-        List<Clothing> clothingList = clothingService.getAll();
-        return new ResponseEntity<>(clothingMapper.toListResponse(clothingList), HttpStatus.OK);
+    public ResponseEntity<ClothingWithSizesListResponse> getAll() {
+        return new ResponseEntity<>(clothingMapper.toListResponseWithSizes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClothingResponse> getById(@PathVariable Long id) {
+    public ResponseEntity<ClothingWithSizesResponse> getById(@PathVariable Long id) {
         Clothing clothing = clothingService.getById(id);
-        return new ResponseEntity<>(clothingMapper.toResponse(clothing), HttpStatus.OK);
+        return new ResponseEntity<>(clothingMapper.toResponseWithSizes(clothing), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/image")

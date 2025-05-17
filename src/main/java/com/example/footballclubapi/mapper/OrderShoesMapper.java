@@ -16,7 +16,6 @@ public class OrderShoesMapper {
 
     private final ShoesWarehouseService shoesWarehouseService;
     private final ShoesWarehouseMapper shoesWarehouseMapper;
-    private final OrderMapper orderMapper;
 
     public OrderShoes toEntity(OrderShoesRequest request) {
         return OrderShoes.builder()
@@ -29,8 +28,7 @@ public class OrderShoesMapper {
         return OrderShoesResponse.builder()
                 .id(orderShoes.getId())
                 .amount(orderShoes.getAmount())
-                .shoes(shoesWarehouseMapper.toResponse(orderShoes.getShoesWarehouse()))
-                .order(orderMapper.toResponse(orderShoes.getOrder()))
+                .shoesWarehouse(shoesWarehouseMapper.toResponse(orderShoes.getShoesWarehouse()))
                 .build();
     }
 

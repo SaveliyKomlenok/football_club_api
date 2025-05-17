@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.footballclubapi.util.Constants.CROSS_LOCALHOST;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/shoes-warehouses")
 @SecurityRequirement(name = "BearerAuth")
+@CrossOrigin(origins = CROSS_LOCALHOST)
 public class ShoesWarehouseController {
     private final ShoesWarehouseService shoesWarehouseService;
     private final ShoesWarehouseMapper shoesWarehouseMapper;

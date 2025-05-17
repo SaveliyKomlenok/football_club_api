@@ -5,9 +5,11 @@ import com.example.footballclubapi.entity.ShoesWarehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ShoesWarehouseRepository extends JpaRepository<ShoesWarehouse, Long> {
     Optional<ShoesWarehouse> findShoesWarehouseByShoesIdAndSizeId(Long shoesId, Long sizeId);
+    List<ShoesWarehouse> findShoesWarehousesByShoesId(Long shoesId);
 }

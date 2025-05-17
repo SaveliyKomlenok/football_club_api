@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.footballclubapi.util.Constants.CROSS_LOCALHOST;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cloth-sizes")
 @SecurityRequirement(name = "BearerAuth")
+@CrossOrigin(origins = CROSS_LOCALHOST)
 public class ClothSizeController {
     private final ClothSizeService clothSizeService;
     private final ClothSizeMapper clothSizeMapper;

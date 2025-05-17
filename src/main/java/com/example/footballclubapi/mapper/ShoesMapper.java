@@ -1,15 +1,19 @@
 package com.example.footballclubapi.mapper;
 
 import com.example.footballclubapi.dto.request.shoes.ShoesRequest;
+import com.example.footballclubapi.dto.response.clothing.ClothingWithSizesListResponse;
 import com.example.footballclubapi.dto.response.manufacturer.ManufacturerResponse;
 import com.example.footballclubapi.dto.response.shoes.ShoesListResponse;
 import com.example.footballclubapi.dto.response.shoes.ShoesResponse;
+import com.example.footballclubapi.dto.response.shoes.ShoesWithSizesListResponse;
+import com.example.footballclubapi.dto.response.shoes.ShoesWithSizesResponse;
 import com.example.footballclubapi.dto.response.shoestype.ShoesTypeResponse;
 import com.example.footballclubapi.entity.Manufacturer;
 import com.example.footballclubapi.entity.Shoes;
 import com.example.footballclubapi.entity.ShoesType;
 import com.example.footballclubapi.service.ManufacturerService;
 import com.example.footballclubapi.service.ShoesTypeService;
+import com.example.footballclubapi.service.ShoesWarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +26,7 @@ public class ShoesMapper {
     private final ShoesTypeService shoesTypeService;
     private final ManufacturerMapper manufacturerMapper;
     private final ShoesTypeMapper shoesTypeMapper;
+    private final ShoesWarehouseService shoesWarehouseService;
 
     public Shoes toEntity(ShoesRequest request) {
         Manufacturer manufacturer = manufacturerService.getById(request.manufacturer());
@@ -63,12 +68,25 @@ public class ShoesMapper {
                 .build();
     }
 
+    public ShoesWithSizesResponse toResponseWithSizes(Shoes shoes) {
+        return ShoesWithSizesResponse.builder()
+                .shoes(toResponse(shoes))
+                .sizes(shoesWarehouseService.getAllShoeSizes(shoes.getId()))
+                .build();
+    }
+
     public ShoesListResponse toListResponse(List<Shoes> shoesList) {
         List<ShoesResponse> responses = shoesList.stream()
                 .map(this::toResponse)
                 .toList();
         return ShoesListResponse.builder()
                 .items(responses)
+                .build();
+    }
+
+    public ShoesWithSizesListResponse toListResponseWithSizes() {
+        return ShoesWithSizesListResponse.builder()
+                .items(shoesWarehouseService.getAllShoesWithSizes())
                 .build();
     }
 }

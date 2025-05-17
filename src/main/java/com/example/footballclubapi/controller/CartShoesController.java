@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+import static com.example.footballclubapi.util.Constants.CROSS_LOCALHOST;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cart-shoes")
 @SecurityRequirement(name = "BearerAuth")
+@CrossOrigin(origins = CROSS_LOCALHOST)
 public class CartShoesController {
     private final CartShoesService cartShoesService;
     private final CartShoesMapper cartShoesMapper;

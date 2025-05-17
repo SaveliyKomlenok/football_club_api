@@ -3,6 +3,8 @@ package com.example.footballclubapi.controller;
 import com.example.footballclubapi.dto.request.shoes.ShoesRequest;
 import com.example.footballclubapi.dto.response.shoes.ShoesListResponse;
 import com.example.footballclubapi.dto.response.shoes.ShoesResponse;
+import com.example.footballclubapi.dto.response.shoes.ShoesWithSizesListResponse;
+import com.example.footballclubapi.dto.response.shoes.ShoesWithSizesResponse;
 import com.example.footballclubapi.entity.Shoes;
 import com.example.footballclubapi.mapper.ShoesMapper;
 import com.example.footballclubapi.service.ShoesService;
@@ -17,25 +19,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.footballclubapi.util.Constants.CROSS_LOCALHOST;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/shoes")
 @SecurityRequirement(name = "BearerAuth")
+@CrossOrigin(origins = CROSS_LOCALHOST)
 public class ShoesController {
     private final ShoesService shoesService;
     private final ImageService imageService;
     private final ShoesMapper shoesMapper;
 
     @GetMapping
-    public ResponseEntity<ShoesListResponse> getAll() {
-        List<Shoes> shoesList = shoesService.getAll();
-        return new ResponseEntity<>(shoesMapper.toListResponse(shoesList), HttpStatus.OK);
+    public ResponseEntity<ShoesWithSizesListResponse> getAll() {
+        return new ResponseEntity<>(shoesMapper.toListResponseWithSizes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ShoesResponse> getById(@PathVariable Long id) {
+    public ResponseEntity<ShoesWithSizesResponse> getById(@PathVariable Long id) {
         Shoes shoes = shoesService.getById(id);
-        return new ResponseEntity<>(shoesMapper.toResponse(shoes), HttpStatus.OK);
+        return new ResponseEntity<>(shoesMapper.toResponseWithSizes(shoes), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/image")
